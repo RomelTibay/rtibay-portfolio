@@ -1,5 +1,5 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp, type FirebaseApp } from 'firebase/app';
+import { getFirestore, type Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: import.meta.env.FIREBASE_API_KEY,
@@ -10,5 +10,16 @@ const firebaseConfig = {
   appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+// Only initialize when configured. Keeps the like button inert (instead of
+// throwing) when running locally without a .env.
+const isConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
+
+let app: FirebaseApp | null = null;
+let db: Firestore | null = null;
+
+if (isConfigured) {
+  app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+}
+
+export { db };

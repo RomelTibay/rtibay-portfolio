@@ -17,6 +17,9 @@ const LikeButton = () => {
       setIsLiked(storedIsLiked === "true");
     }
 
+    // Firebase not configured (no .env) — render the button inert.
+    if (!db) return;
+
     // Listen for realtime updates from Firestore
     const likeDocRef = doc(db, "likes", "counter");
     const unsubscribe = onSnapshot(likeDocRef, (docSnap) => {
@@ -34,7 +37,7 @@ const LikeButton = () => {
   }, []);
 
   const handleLike = async () => {
-    if (isProcessing || isLiked) return;
+    if (isProcessing || isLiked || !db) return;
 
     // Optimistic Update
     const previousLikes = likes;

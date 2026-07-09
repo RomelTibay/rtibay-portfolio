@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      # Group all the updates in a single PR
+      all-dependencies:
+        patterns:
+          - "*"

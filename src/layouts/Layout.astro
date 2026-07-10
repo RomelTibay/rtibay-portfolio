@@ -1,4 +1,8 @@
 ---
+import "@fontsource-variable/space-grotesk";
+import "@fontsource-variable/jetbrains-mono";
+import GameBg from "@/components/gameBg.astro";
+
 interface Props {
   title: string;
 }
@@ -19,13 +23,12 @@ const { title } = Astro.props;
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="canonical" href="https://rtibay-portfolio.vercel.app/" />
 
-    <link
-      rel="preload"
-      href="/fonts/montserrat-latin-wght-normal.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
+    <meta name="theme-color" content="#08060F" />
+
+    <!-- Enable progressive-enhancement hooks before paint (no FOUC) -->
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
 
     <meta
       property="og:title"
@@ -41,10 +44,7 @@ const { title } = Astro.props;
     />
     <meta property="og:url" content="https://rtibay-portfolio.vercel.app" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:site_name"
-      content="Romel Andres S. Tibay Portfolio"
-    />
+    <meta property="og:site_name" content="Romel Andres S. Tibay Portfolio" />
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -55,76 +55,441 @@ const { title } = Astro.props;
         "alternateName": "Romel Tibay",
         "url": "https://rtibay-portfolio.vercel.app",
         "image": "https://rtibay-portfolio.vercel.app/og.image.png",
-        "sameAs": [
-          "https://github.com/RomelTibay"
-        ],
+        "sameAs": ["https://github.com/RomelTibay"],
         "jobTitle": "Network Administrator & Software Developer",
         "description": "Aspiring Network Administrator & Software Developer, BSIT senior at Mapúa Malayan Colleges Laguna."
       }
     </script>
   </head>
-  <body class="bg-[--background] sm:px-28 lg:px-20 px-9">
+  <body class="bg-void text-ink font-sans antialiased selection:bg-accent selection:text-void">
+    <GameBg />
+    <div id="scroll-progress" aria-hidden="true"></div>
+    <div id="cheat-toast" role="status" aria-live="polite">
+      <span class="ct-key">🎮 GODMODE</span> unlimited neon unlocked
+    </div>
     <slot />
   </body>
 </html>
 
 <style is:global>
-  @font-face {
-    font-family: "Montserrat Variable";
-    src: url("/fonts/montserrat-latin-wght-normal.woff2")
-      format("woff2-variations");
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-  }
-
   :root {
-    --background: #101010;
-    --sec: #a476ff;
-    --white: #dfdfdf;
-    --white-icon: #f3f3f398;
-    --white-icon-tr: #f3f3f310;
+    --void: #08060f; /* page background — near-black, purple-tinted */
+    --paper: #100d1c; /* card / surface */
+    --line: #2a2440; /* dim structural borders (muted purple) */
+    --ink: #cdc9e6; /* soft off-white text (lavender), not stark white */
+    --muted: #928db2; /* muted lavender-gray */
+    --accent: #21e8ff; /* neon cyan */
+    --purple: #b14bff; /* neon purple */
+    --signal: #ff2e88; /* neon magenta */
+    --lime: #c6ff3a; /* neon lime */
   }
 
   * {
-    font-family:
-      "Montserrat Variable",
-      -apple-system,
-      system-ui,
-      sans-serif;
     box-sizing: border-box;
     padding: 0;
     margin: 0;
   }
 
-  *::selection {
-    background-color: var(--sec);
-    color: var(--background);
+  html {
+    scroll-behavior: smooth;
+    /* offset for the sticky top bar when anchor-jumping */
+    scroll-padding-top: 5rem;
   }
 
-  /* Scrollbar styles */
+  body {
+    min-height: 100vh;
+    background-color: var(--void);
+    /* ambient neon glow + faint column grid */
+    background-image:
+      radial-gradient(
+        60% 50% at 10% -5%,
+        rgba(33, 232, 255, 0.12),
+        transparent 60%
+      ),
+      radial-gradient(
+        55% 45% at 108% 8%,
+        rgba(177, 75, 255, 0.14),
+        transparent 60%
+      ),
+      radial-gradient(
+        50% 45% at 95% 105%,
+        rgba(255, 46, 136, 0.1),
+        transparent 60%
+      ),
+      linear-gradient(
+        90deg,
+        transparent 0,
+        transparent calc(100% - 1px),
+        rgba(177, 75, 255, 0.05) 100%
+      );
+    background-size:
+      auto,
+      auto,
+      auto,
+      5rem 100%;
+    background-attachment: fixed, fixed, fixed, scroll;
+  }
 
+  ::selection {
+    background-color: var(--accent);
+    color: var(--void);
+  }
+
+  /* Neon text-glow helpers */
+  .glow-a {
+    text-shadow: 0 0 16px var(--accent);
+  }
+  .glow-s {
+    text-shadow: 0 0 16px var(--signal);
+  }
+  .glow-l {
+    text-shadow: 0 0 16px var(--lime);
+  }
+
+  /* Neon gradient headline (cyan → purple → magenta), slowly panning */
+  .neon-title {
+    background-image: linear-gradient(
+      104deg,
+      var(--accent) 0%,
+      var(--purple) 40%,
+      var(--signal) 70%,
+      var(--accent) 100%
+    );
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 22px rgba(177, 75, 255, 0.35));
+    animation: title-pan 9s linear infinite;
+  }
+  @keyframes title-pan {
+    to {
+      background-position: 220% center;
+    }
+  }
+
+  /* Blocky, neon scrollbar */
   ::-webkit-scrollbar {
-    width: 15px;
+    width: 14px;
   }
-
   ::-webkit-scrollbar-track {
-    background: var(--container);
-    border-radius: 30px;
+    background: var(--void);
+    border-left: 2px solid var(--line);
   }
-
   ::-webkit-scrollbar-thumb {
-    background: var(--background);
-    border-radius: 10px;
+    background: var(--accent);
+    border: 3px solid var(--void);
   }
-
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--pink);
+    background: var(--signal);
   }
-
-  /* Scrollbar styles for Firefox */
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--line) var(--container);
+    scrollbar-color: var(--accent) var(--void);
+  }
+
+  /* Chunky, visible focus for keyboard users */
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ---------- Motion ---------- */
+
+  /* Scroll progress bar (top, neon) */
+  #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    z-index: 60;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: linear-gradient(
+      90deg,
+      var(--accent),
+      var(--purple),
+      var(--signal)
+    );
+    box-shadow: 0 0 12px var(--purple);
+    will-change: transform;
+  }
+
+  /* Scroll-reveal — hidden only when JS is on, so no-JS shows everything */
+  html.js .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: opacity, transform;
+  }
+  html.js .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hero entrance — staggered rise on load */
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  html.js .hero-anim > * {
+    opacity: 0;
+    animation: rise 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  }
+  html.js .hero-anim > *:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+  html.js .hero-anim > *:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  html.js .hero-anim > *:nth-child(3) {
+    animation-delay: 0.25s;
+  }
+  html.js .hero-anim > *:nth-child(4) {
+    animation-delay: 0.35s;
+  }
+  html.js .hero-anim > *:nth-child(5) {
+    animation-delay: 0.45s;
+  }
+  /* Name keeps its panning gradient AND the entrance rise */
+  html.js .hero-anim > .neon-title {
+    animation:
+      rise 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s forwards,
+      title-pan 9s linear infinite;
+  }
+  html.js .hero-card {
+    opacity: 0;
+    animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.4s forwards;
+  }
+
+  /* Timeline: neon rail that draws down on reveal */
+  .timeline-rail {
+    position: relative;
+  }
+  .timeline-rail::after {
+    content: "";
+    position: absolute;
+    left: -2px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(
+      var(--accent),
+      var(--purple),
+      var(--signal)
+    );
+    box-shadow: 0 0 12px var(--purple);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  html.js .timeline-rail.in::after {
+    transform: scaleY(1);
+  }
+
+  /* Live pulse ring (status "online" dot) */
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 rgba(198, 255, 58, 0.55);
+    }
+    70% {
+      box-shadow: 0 0 0 7px rgba(198, 255, 58, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(198, 255, 58, 0);
+    }
+  }
+  .pulse {
+    animation: pulse-ring 2s ease-out infinite;
+  }
+
+  /* Blinking terminal cursor */
+  @keyframes blink {
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+  .cursor {
+    animation: blink 1.1s steps(1) infinite;
+  }
+
+  /* Konami easter-egg toast */
+  #cheat-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 1.5rem;
+    transform: translate(-50%, 200%);
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 2px solid var(--accent);
+    background: var(--paper);
+    color: var(--ink);
+    padding: 0.75rem 1.1rem;
+    font-family: "JetBrains Mono Variable", monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 0 28px -4px var(--accent);
+    transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.2, 1);
+  }
+  #cheat-toast.show {
+    transform: translate(-50%, 0);
+  }
+  #cheat-toast .ct-key {
+    font-weight: 700;
+    color: var(--lime);
+    text-shadow: 0 0 12px var(--lime);
+  }
+
+  /* GODMODE: crank the neon */
+  html.godmode {
+    --line: #3a3363;
+  }
+  html.godmode .neon-title {
+    filter: drop-shadow(0 0 34px var(--purple)) drop-shadow(0 0 14px var(--accent));
+  }
+  html.godmode .shadow-glow,
+  html.godmode .shadow-glow-signal {
+    box-shadow: 0 0 34px -2px var(--accent);
+  }
+  html.godmode #scroll-progress {
+    height: 5px;
+    box-shadow: 0 0 20px var(--accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    /* Always show content; never leave it stuck hidden */
+    html.js .reveal,
+    html.js .hero-anim > *,
+    html.js .hero-card {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .timeline-rail::after {
+      transform: scaleY(1) !important;
+    }
+    #scroll-progress {
+      display: none;
+    }
   }
 </style>
+
+<script>
+  // Scroll-reveal (with optional stagger) + top progress bar.
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // --- Scroll progress bar ---
+  const bar = document.getElementById("scroll-progress");
+  if (bar && !reduce) {
+    let ticking = false;
+    const update = () => {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const p = max > 0 ? doc.scrollTop / max : 0;
+      bar.style.transform = `scaleX(${p})`;
+      ticking = false;
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+    update();
+  }
+
+  // --- Scroll reveal ---
+  const staggerContainers = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-stagger]")
+  );
+  const singles = Array.from(
+    document.querySelectorAll<HTMLElement>(".reveal")
+  ).filter((el) => !el.closest("[data-stagger]"));
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const el = entry.target as HTMLElement;
+        if (el.hasAttribute("data-stagger")) {
+          el.classList.add("in");
+          const items = el.querySelectorAll<HTMLElement>(".reveal");
+          items.forEach((it, i) =>
+            setTimeout(() => it.classList.add("in"), i * 90)
+          );
+        } else {
+          el.classList.add("in");
+        }
+        io.unobserve(el);
+      }
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+  );
+
+  [...staggerContainers, ...singles].forEach((el) => io.observe(el));
+
+  // --- Dev-console credits (game devs always open the console) ---
+  console.log(
+    "%cROMEL TIBAY%c // portfolio build v1.0  🎮\n%cyou opened the console. respect. try the konami code:  ↑ ↑ ↓ ↓ ← → ← → B A",
+    "color:#21e8ff;font-weight:700;font-size:16px;text-shadow:0 0 8px #21e8ff",
+    "color:#b14bff;font-size:13px",
+    "color:#928db2;font-size:12px"
+  );
+
+  // --- Konami code: toggle GODMODE neon ---
+  const KONAMI = [
+    "ArrowUp",
+    "ArrowUp",
+    "ArrowDown",
+    "ArrowDown",
+    "ArrowLeft",
+    "ArrowRight",
+    "ArrowLeft",
+    "ArrowRight",
+    "b",
+    "a",
+  ];
+  const toast = document.getElementById("cheat-toast");
+  let ki = 0;
+  let toastTimer: number | undefined;
+  window.addEventListener("keydown", (e) => {
+    const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    ki = key === KONAMI[ki] ? ki + 1 : key === KONAMI[0] ? 1 : 0;
+    if (ki !== KONAMI.length) return;
+    ki = 0;
+    const on = document.documentElement.classList.toggle("godmode");
+    if (!toast) return;
+    toast.innerHTML = on
+      ? '<span class="ct-key">🎮 GODMODE</span> unlimited neon unlocked'
+      : '<span class="ct-key">GODMODE OFF</span> back to standard render';
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => toast.classList.remove("show"), 3500);
+  });
+</script>

@@ -2,15 +2,23 @@
 import Layout from "@/layouts/Layout.astro";
 import Nav from "@/components/nav.astro";
 import Home from "@/components/home.astro";
+import About from "@/components/about.astro";
+import Skills from "@/components/skills.astro";
 import Projects from "@/components/projects.astro";
+import Timeline from "@/components/timeline.astro";
 import Contact from "@/components/contact.astro";
 import Footer from "@/components/footer.astro";
 ---
 
 <Layout title="Romel Andres S. Tibay">
   <Nav />
-  <Home />
-  <Projects />
-  <Contact />
+  <main>
+    <Home />
+    <About />
+    <Skills />
+    <Projects />
+    <Timeline />
+    <Contact />
+  </main>
   <Footer />
 </Layout>

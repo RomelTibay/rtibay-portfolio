@@ -11,51 +11,38 @@ const technologies = [
 ];
 ---
 
-<div class="relative overflow-x-hidden py-8">
-  <div class="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[var(--background)] to-transparent z-20"></div>
-  <div class="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[var(--background)] to-transparent z-20"></div>
-
-  <div class="flex animate-scroll w-max will-change-transform">
+<div class="marquee relative overflow-x-hidden border-t-2 border-line bg-paper py-4">
+  <div class="flex w-max animate-scroll will-change-transform">
     {
-      [...technologies, ...technologies].map((tech, index) => (
-        <div 
-          class="flex items-center gap-2 pr-12 md:pr-20 group transition-all duration-300"
-          aria-hidden={index >= technologies.length ? "true" : "false"}
-        >
-          <img
-            src={`/svg/${tech}.svg`}
-            alt={tech}
-            class="h-7 w-auto object-contain transition-transform group-hover:scale-110 opacity-60"
-            width="30"
-            height="30"
-            loading={index < technologies.length ? "eager" : "lazy"}
-            decoding="async"
-          />
-          <span class="text-lg font-medium text-[var(--white-icon)] whitespace-nowrap">
-            {tech.charAt(0).toUpperCase() + tech.slice(1)}
-          </span>
-        </div>
-      ))
+      [...technologies, ...technologies, ...technologies, ...technologies].map(
+        (tech, index) => (
+          <div
+            class="flex items-center gap-2.5 pr-10 md:pr-16"
+            aria-hidden={index >= technologies.length ? "true" : "false"}
+          >
+            <img
+              src={`/svg/${tech}.svg`}
+              alt={tech}
+              class="h-5 w-auto object-contain opacity-80 brightness-0 invert"
+              width="24"
+              height="24"
+              loading={index < technologies.length ? "eager" : "lazy"}
+              decoding="async"
+            />
+            <span class="font-mono text-sm uppercase tracking-wide text-ink/80">
+              {tech}
+            </span>
+            <span class="pl-8 font-mono text-signal glow-s md:pl-14">/</span>
+          </div>
+        )
+      )
     }
   </div>
 </div>
 
-<style is:global>
-  @keyframes scroll {
-    0% {
-      transform: translate3d(0, 0, 0);
-    }
-    100% {
-      transform: translate3d(-50%, 0, 0);
-    }
-  }
-  .animate-scroll {
-    animation: scroll 60s linear infinite;
-  }
-
-  @media (min-width: 768px) {
-    .animate-scroll {
-      animation-duration: 50s;
-    }
+<style>
+  /* Pause the ticker on hover for readability */
+  .marquee:hover .animate-scroll {
+    animation-play-state: paused;
   }
 </style>

@@ -5,9 +5,22 @@ interface Entry {
   tag: string;
   role: string;
   detail: string;
+  link?: { href: string; label: string };
 }
 
 const entries: Entry[] = [
+  {
+    date: "Apr – Jul 2026",
+    title: "City Government of Biñan",
+    tag: "Practicum",
+    role: "Web Systems Developer · ICTO",
+    detail:
+      "Built the Biñan Access Card MIS bulk-data pipeline — Excel import/export, an async cron worker, and an import reviewer stress-tested to 50,000 records — plus a login/session guard and audit trail. CodeIgniter 4 & MySQL.",
+    link: {
+      href: "/practicum-narrative-report.pdf",
+      label: "Practicum Narrative Report",
+    },
+  },
   {
     date: "2025 – 2026",
     title: "saPIIre",
@@ -77,6 +90,19 @@ const entries: Entry[] = [
               <p class="mt-3 font-mono text-sm leading-relaxed text-ink/80">
                 {entry.detail}
               </p>
+              {entry.link && (
+                <a
+                  href={entry.link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mt-4 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wide text-accent underline decoration-2 underline-offset-4 transition-colors hover:text-signal"
+                >
+                  {entry.link.label}
+                  <svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4" aria-hidden="true">
+                    <path d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.414l-7.793 7.793-1.414-1.414L17.585 5H13V3h8z" />
+                  </svg>
+                </a>
+              )}
             </div>
           </li>
         ))

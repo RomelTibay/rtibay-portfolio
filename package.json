@@ -29,8 +29,11 @@
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "sharp"]
+  },
   "engines": {
-    "node": ">=20.0.0",
+    "node": "22.x",
     "pnpm": ">=9.0.0"
   }
 }

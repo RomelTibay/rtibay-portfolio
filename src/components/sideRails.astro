@@ -1,0 +1,78 @@
+---
+// Decorative ctOS HUD side-rails that fill the wide-screen gutters.
+// Fixed, non-interactive, and only shown when the gutter is wide enough
+// (>=1440px) that they can never overlap the centered max-w-7xl content.
+---
+
+<div aria-hidden="true">
+  <!-- LEFT rail -->
+  <div
+    class="pointer-events-none fixed bottom-0 left-0 top-16 z-30 hidden w-14 flex-col items-center justify-between bg-gradient-to-r from-void via-void/70 to-transparent py-8 font-mono text-muted min-[1500px]:flex"
+  >
+    <div class="flex flex-col items-center gap-1.5">
+      <span class="text-[0.6rem] tracking-widest text-accent">042</span>
+      <span class="block h-3 w-px bg-line"></span>
+      <span class="text-[0.5rem] tracking-[0.2em]">SEC</span>
+    </div>
+
+    <div class="relative flex flex-1 items-stretch justify-center py-6">
+      <span class="tick-spine w-1.5"></span>
+      <span
+        class="absolute inset-y-6 left-1/2 flex -translate-x-1/2 items-center [writing-mode:vertical-rl] rotate-180 whitespace-nowrap text-[0.55rem] uppercase tracking-[0.35em]"
+      >
+        ctOS // NODE_RTIBAY_R
+      </span>
+    </div>
+
+    <div class="flex flex-col items-center gap-2">
+      <span
+        class="[writing-mode:vertical-rl] rotate-180 whitespace-nowrap text-[0.52rem] uppercase tracking-[0.2em]"
+      >
+        N 14°10' · E 121°09'
+      </span>
+      <span class="pulse inline-block h-1.5 w-1.5 rounded-full bg-accent"></span>
+    </div>
+  </div>
+
+  <!-- RIGHT rail -->
+  <div
+    class="pointer-events-none fixed bottom-0 right-0 top-16 z-30 hidden w-14 flex-col items-center justify-between bg-gradient-to-l from-void via-void/70 to-transparent py-8 font-mono text-muted min-[1500px]:flex"
+  >
+    <div class="flex flex-col items-center gap-1.5">
+      <span class="text-[0.6rem] tracking-widest text-accent">◈</span>
+      <span class="block h-3 w-px bg-line"></span>
+      <span class="text-[0.5rem] tracking-[0.2em]">v1.0</span>
+    </div>
+
+    <div class="relative flex flex-1 items-stretch justify-center py-6">
+      <span class="tick-spine w-1.5"></span>
+      <span
+        class="absolute inset-y-6 left-1/2 flex -translate-x-1/2 items-center [writing-mode:vertical-rl] whitespace-nowrap text-[0.55rem] uppercase tracking-[0.35em]"
+      >
+        SIGNAL // ONLINE
+      </span>
+    </div>
+
+    <div class="flex flex-col items-center gap-2">
+      <span
+        class="[writing-mode:vertical-rl] whitespace-nowrap text-[0.52rem] uppercase tracking-[0.2em]"
+      >
+        0xA3F9 :: C2D1
+      </span>
+      <span class="pulse inline-block h-1.5 w-1.5 rounded-full bg-accent"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Vertical tick ruler running the height of each rail */
+  .tick-spine {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      var(--line) 0,
+      var(--line) 1px,
+      transparent 1px,
+      transparent 9px
+    );
+  }
+</style>

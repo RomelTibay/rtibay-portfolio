@@ -1,0 +1,132 @@
+---
+import CtosEmblem from "./ctosEmblem.astro";
+
+// Seeded PRNG so the waveform is stable across builds.
+function mulberry32(seed: number) {
+  return function () {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function makeBars(seed: number, count = 44) {
+  const rand = mulberry32(seed);
+  return Array.from({ length: count }, () => ({
+    h: 18 + Math.round(rand() * 82), // base height %
+    dur: (0.85 + rand() * 0.8).toFixed(2), // s
+    delay: (rand() * 1.1).toFixed(2), // s
+  }));
+}
+
+const outBars = makeBars(1010);
+const inBars = makeBars(2020);
+
+// Tech stack (re-homed from the old marquee) as diamond-framed icons.
+const stack = [
+  "javaScript",
+  "HTML5",
+  "CSS3",
+  "nodejs",
+  "supabase",
+  "mysql",
+  "git",
+  "bash",
+];
+
+const waveRows = [
+  { dir: "OUT-GOING", arrow: "▲", total: "51.2 GB", rate: "78.0 B/s", bars: outBars },
+  { dir: "IN-GOING", arrow: "▼", total: "299.4 GB", rate: "534.0 B/s", bars: inBars },
+];
+---
+
+<section
+  class="relative overflow-hidden border-t-2 border-line bg-void"
+  aria-label="Network data stream (decorative)"
+>
+  <div class="mx-auto max-w-7xl px-6 py-8 md:px-10">
+    <!-- angled tab header -->
+    <div class="mb-6 flex items-center gap-3">
+      <span
+        class="hud-tab hatch border-2 border-accent font-mono text-[0.7rem] font-bold uppercase tracking-[0.2em] text-accent"
+      >
+        <span>Network // Live Data Stream</span>
+      </span>
+      <span class="h-px flex-1 bg-line"></span>
+      <span class="hidden font-mono text-[0.65rem] uppercase tracking-wider text-muted sm:inline">
+        ◈ ctOS · node rtibay
+      </span>
+    </div>
+
+    <div class="grid items-center gap-8 md:grid-cols-[1fr_auto_1fr]">
+      <!-- waveforms -->
+      <div class="order-2 space-y-5 md:order-1">
+        {
+          waveRows.map((row) => (
+            <div>
+              <div class="mb-2 flex items-center justify-between font-mono text-[0.65rem] uppercase tracking-wider">
+                <span class="flex items-center gap-1.5 text-accent">
+                  <span>{row.arrow}</span>
+                  {row.dir}
+                </span>
+                <span class="text-muted">
+                  {row.total} · <span class="text-ink">{row.rate}</span>
+                </span>
+              </div>
+              <div class="flex h-12 items-center gap-[2px] border-2 border-line bg-void/60 px-2 py-1">
+                {row.bars.map((b) => (
+                  <span
+                    class="wave-bar block w-full flex-1 bg-accent"
+                    style={`height:${b.h}%;--wdur:${b.dur}s;--wdelay:${b.delay}s;opacity:0.85`}
+                  />
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- emblem centerpiece (white line-art) -->
+      <div class="order-1 flex flex-col items-center gap-2 md:order-2">
+        <CtosEmblem sweep class="h-40 w-40 text-ink md:h-48 md:w-48" />
+        <span class="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-muted">
+          Signal <span class="text-accent">@ online</span> · 100%
+        </span>
+      </div>
+
+      <!-- tech stack as diamonds -->
+      <div class="order-3">
+        <p
+          class="mb-4 flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted"
+        >
+          <span class="inline-block h-1.5 w-1.5 bg-accent"></span>
+          Stack // Loaded
+        </p>
+        <ul class="grid grid-cols-4 gap-x-3 gap-y-5">
+          {
+            stack.map((tech) => (
+              <li class="flex flex-col items-center gap-2">
+                <span class="hud-diamond h-10 w-10">
+                  <img
+                    src={`/svg/${tech}.svg`}
+                    alt={tech}
+                    width="20"
+                    height="20"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-5 w-5 object-contain brightness-0 invert"
+                  />
+                </span>
+                <span class="font-mono text-[0.55rem] uppercase tracking-wide text-muted">
+                  {tech}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

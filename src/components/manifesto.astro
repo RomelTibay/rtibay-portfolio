@@ -1,0 +1,64 @@
+---
+import CtosEmblem from "./ctosEmblem.astro";
+---
+
+<!-- Inverted black-on-white beat — a stark monochrome contrast break -->
+<section
+  class="relative overflow-hidden border-y-2 border-void bg-[#eef2f2] text-void"
+>
+  <!-- black emblem watermark -->
+  <CtosEmblem
+    class="pointer-events-none absolute top-1/2 -right-16 h-[24rem] w-[24rem] -translate-y-1/2 text-void opacity-[0.07] md:h-[30rem] md:w-[30rem]"
+  />
+  <!-- hatched edge strips -->
+  <div class="mano-hatch absolute inset-x-0 top-0 h-2" aria-hidden="true"></div>
+  <div class="mano-hatch absolute inset-x-0 bottom-0 h-2" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-7xl px-6 py-16 md:px-10 md:py-24">
+    <p
+      class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-void/60"
+    >
+      <span class="inline-block h-2.5 w-2.5 bg-void"></span>
+      // System_Manifesto
+    </p>
+    <h2
+      class="mt-5 max-w-4xl font-sans text-4xl font-black uppercase leading-[0.95] tracking-tight sm:text-6xl md:text-7xl"
+    >
+      &gt; Reliable from the<br />wire to the <span class="mano-mark">interface.</span>
+    </h2>
+    <p
+      class="mt-6 max-w-2xl font-mono text-sm leading-relaxed text-void/70 md:text-base"
+    >
+      Networks configured, systems shipped — end to end. No black boxes, just
+      infrastructure you can trust from the packet up to the pixel.
+    </p>
+    <div
+      class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[0.65rem] uppercase tracking-wider text-void/60"
+    >
+      <span>● status: operational</span>
+      <span>clearance: lvl-03</span>
+      <span>node: rtibay</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mano-hatch {
+    background-image: repeating-linear-gradient(
+      45deg,
+      #05070a 0,
+      #05070a 2px,
+      transparent 2px,
+      transparent 8px
+    );
+    opacity: 0.8;
+  }
+  /* white-on-black inline emphasis (stays pure monochrome) */
+  .mano-mark {
+    background: #05070a;
+    color: #eef2f2;
+    padding: 0 0.15em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+</style>

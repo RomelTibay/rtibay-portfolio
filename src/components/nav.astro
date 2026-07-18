@@ -17,22 +17,27 @@ const navItems: NavItem[] = [
   class="sticky top-0 z-50 border-b-2 border-line bg-paper/95 backdrop-blur-sm"
 >
   <div
-    class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-6 md:px-10"
+    class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-6 md:px-10"
   >
-    <a
-      href="#home"
-      aria-label="Romel Andres Tibay — home"
-      class="group flex items-center gap-2 font-mono text-sm font-bold uppercase tracking-tight"
-    >
-      <img
-        src="/profile.jpg"
-        alt=""
-        width="64"
-        height="64"
-        class="h-8 w-8 shrink-0 border-2 border-signal object-cover shadow-glow-signal"
-      />
-      <span class="hidden sm:inline">Romel Andres Tibay</span>
-    </a>
+    <div class="flex items-center gap-4">
+      <a
+        href="#home"
+        aria-label="Romel Andres Tibay — home"
+        class="group flex items-center gap-2.5 font-mono text-sm font-bold uppercase tracking-tight"
+      >
+        <span
+          class="grid h-8 w-8 shrink-0 place-items-center border-2 border-ink/70 text-ink transition-all group-hover:border-accent group-hover:bg-accent group-hover:text-void group-hover:shadow-glow"
+        >R</span>
+        <span class="hidden sm:inline">Romel Andres Tibay</span>
+      </a>
+
+      <span
+        class="hidden items-center gap-2 border-l-2 border-line pl-4 font-mono text-xs uppercase tracking-wider text-muted lg:flex"
+      >
+        <span class="pulse inline-block h-1.5 w-1.5 rounded-full bg-accent"></span>
+        <time id="ctos-clock" aria-hidden="true">--h --m --s</time>
+      </span>
+    </div>
 
     <nav class="hidden items-center gap-6 md:flex">
       {
@@ -50,7 +55,7 @@ const navItems: NavItem[] = [
     <a
       href="/resume.pdf"
       download
-      class="inline-flex items-center gap-1.5 border-2 border-accent bg-accent px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wide text-void shadow-glow transition-all hover:-translate-y-0.5 hover:border-signal hover:bg-signal hover:shadow-glow-signal active:translate-y-0"
+      class="inline-flex items-center gap-1.5 border-2 border-chalk bg-chalk px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wide text-void shadow-glow-white transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-accent hover:shadow-glow active:translate-y-0"
     >
       Resume
       <svg viewBox="0 0 24 24" fill="currentColor" class="h-3.5 w-3.5">
@@ -88,7 +93,7 @@ const navItems: NavItem[] = [
     background: color-mix(in srgb, var(--signal) 12%, transparent);
   }
 
-  /* desktop animated underline: cyan on hover, magenta when active */
+  /* desktop animated underline: cyan on hover, amber when active */
   @media (min-width: 768px) {
     .nav-link.active {
       background: transparent;
@@ -143,4 +148,18 @@ const navItems: NavItem[] = [
 
     sections.forEach((section) => observer.observe(section));
   });
+</script>
+
+<script>
+  // Live ctOS clock readout (echoes the game's Time/Date HUD)
+  const clock = document.getElementById("ctos-clock");
+  if (clock) {
+    const p = (n: number) => String(n).padStart(2, "0");
+    const tick = () => {
+      const d = new Date();
+      clock.textContent = `${p(d.getHours())}h ${p(d.getMinutes())}m ${p(d.getSeconds())}s`;
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
 </script>

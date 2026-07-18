@@ -4,15 +4,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        void: "var(--void)",
-        paper: "var(--paper)",
-        line: "var(--line)",
-        ink: "var(--ink)",
-        accent: "var(--accent)",
+        void: "rgb(var(--void-c) / <alpha-value>)",
+        paper: "rgb(var(--paper-c) / <alpha-value>)",
+        line: "rgb(var(--line-c) / <alpha-value>)",
+        ink: "rgb(var(--ink-c) / <alpha-value>)",
+        chalk: "rgb(var(--chalk-c) / <alpha-value>)",
+        accent: "rgb(var(--accent-c) / <alpha-value>)",
+        signal: "rgb(var(--signal-c) / <alpha-value>)",
+        muted: "rgb(var(--muted-c) / <alpha-value>)",
         purple: "var(--purple)",
         lime: "var(--lime)",
-        signal: "var(--signal)",
-        muted: "var(--muted)",
       },
       fontFamily: {
         sans: ["Space Grotesk Variable", "system-ui", "sans-serif"],
@@ -26,15 +27,10 @@ export default {
         "glow-signal": "0 0 24px -4px var(--signal)",
         "glow-lime": "0 0 24px -4px var(--lime)",
         "glow-purple": "0 0 24px -4px var(--purple)",
-      },
-      keyframes: {
-        scroll: {
-          "0%": { transform: "translate3d(0,0,0)" },
-          "100%": { transform: "translate3d(-50%,0,0)" },
-        },
-      },
-      animation: {
-        scroll: "scroll 40s linear infinite",
+        // white hover variants (pointer hover → white, not cyan)
+        "hard-white": "5px 5px 0 0 var(--chalk)",
+        "hard-white-sm": "3px 3px 0 0 var(--chalk)",
+        "glow-white": "0 0 24px -4px var(--chalk)",
       },
     },
   },

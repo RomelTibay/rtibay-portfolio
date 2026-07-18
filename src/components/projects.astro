@@ -32,7 +32,7 @@ const projects: Project[] = [
 ---
 
 <section id="projects" class="border-b-2 border-line">
-  <div class="mx-auto max-w-6xl px-6 md:px-10 py-16 md:py-24">
+  <div class="mx-auto max-w-7xl px-6 md:px-10 py-16 md:py-24">
     <div class="reveal mb-10 flex flex-wrap items-end justify-between gap-4">
       <div>
         <p
@@ -42,7 +42,7 @@ const projects: Project[] = [
           Selected Work
         </p>
         <h2
-          class="font-sans text-4xl font-bold uppercase leading-none tracking-tight md:text-6xl"
+          class="font-sans text-4xl font-bold uppercase leading-none tracking-tight text-chalk md:text-6xl"
         >
           Projects
         </h2>
@@ -55,16 +55,23 @@ const projects: Project[] = [
     <div data-stagger class="grid grid-cols-1 gap-6 md:grid-cols-2">
       {
         projects.map((project, i) => (
-          <article class="reveal group relative flex flex-col overflow-hidden border-2 border-line bg-paper p-6 transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard">
+          <article class="reveal hud-brackets group relative flex flex-col overflow-hidden border-2 border-line bg-paper p-6 transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:border-accent hover:shadow-hard">
             <span class="pointer-events-none absolute -right-2 -top-4 select-none font-mono text-7xl font-bold text-ink/10 md:text-8xl">
               {String(i + 1).padStart(2, "0")}
             </span>
 
             <div class="relative flex flex-wrap items-center gap-3">
+              <div class="w-full">
+                <span
+                  class="hud-tab hatch border border-line font-mono text-[0.6rem] uppercase tracking-[0.2em] text-accent"
+                >
+                  <span>&gt; FILE_{String(i + 1).padStart(3, "0")} // ACCESS GRANTED</span>
+                </span>
+              </div>
               <h3 class="font-sans text-2xl font-bold uppercase tracking-tight">
                 {project.title}
               </h3>
-              <span class="border-2 border-signal bg-signal px-2 py-0.5 font-mono text-xs font-bold uppercase text-void shadow-glow-signal">
+              <span class="border-2 border-accent bg-accent px-2 py-0.5 font-mono text-xs font-bold uppercase text-void shadow-glow">
                 {project.tag}
               </span>
             </div>
@@ -100,7 +107,7 @@ const projects: Project[] = [
       target="_blank"
       rel="noopener noreferrer"
       href="https://github.com/RomelTibay?tab=repositories"
-      class="reveal mt-8 flex items-center justify-center gap-3 border-2 border-accent bg-accent px-6 py-4 font-mono text-sm font-bold uppercase tracking-wide text-void shadow-glow transition-all hover:-translate-y-0.5 hover:border-signal hover:bg-signal hover:shadow-glow-signal active:translate-y-0"
+      class="reveal mt-8 flex items-center justify-center gap-3 border-2 border-chalk bg-chalk px-6 py-4 font-mono text-sm font-bold uppercase tracking-wide text-void shadow-glow-white transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-accent hover:shadow-glow active:translate-y-0"
     >
       More projects on GitHub
       <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">

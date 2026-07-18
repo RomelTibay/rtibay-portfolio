@@ -8,7 +8,7 @@ const MAILTO = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Hey%20
 ---
 
 <section id="contact" class="border-b-2 border-line">
-  <div class="mx-auto max-w-6xl px-6 md:px-10 py-16 md:py-24">
+  <div class="mx-auto max-w-7xl px-6 md:px-10 py-16 md:py-24">
     <div class="reveal mb-12">
       <p
         class="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-muted"
@@ -17,7 +17,7 @@ const MAILTO = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Hey%20
         Let's Talk
       </p>
       <h2
-        class="font-sans text-4xl font-bold uppercase leading-none tracking-tight md:text-6xl"
+        class="font-sans text-4xl font-bold uppercase leading-none tracking-tight text-chalk md:text-6xl"
       >
         Contact
       </h2>
@@ -35,7 +35,7 @@ const MAILTO = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Hey%20
           href={MAILTO}
           target="_blank"
           rel="noopener noreferrer"
-          class="group flex items-center justify-between gap-3 border-2 border-accent bg-accent px-5 py-4 text-void shadow-glow transition-all hover:-translate-y-0.5 hover:border-signal hover:bg-signal hover:shadow-glow-signal active:translate-y-0"
+          class="group flex items-center justify-between gap-3 border-2 border-chalk bg-chalk px-5 py-4 text-void shadow-glow-white transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-accent hover:shadow-glow active:translate-y-0"
         >
           <span class="min-w-0">
             <span class="block font-mono text-xs uppercase tracking-wide text-void/70">
@@ -52,8 +52,8 @@ const MAILTO = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Hey%20
           class="grid grid-cols-1 gap-[2px] border-2 border-line bg-line sm:grid-cols-2"
         >
           <div class="bg-paper p-4">
-            <p class="font-mono text-xs uppercase tracking-[0.15em] text-signal">
-              Location
+            <p class="font-mono text-xs uppercase tracking-[0.15em] text-accent">
+              &gt; Location
             </p>
             <p class="mt-1 font-semibold">Laguna, Philippines</p>
           </div>
@@ -61,10 +61,10 @@ const MAILTO = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Hey%20
             href="https://github.com/RomelTibay"
             target="_blank"
             rel="noopener noreferrer"
-            class="group bg-paper p-4 transition-colors hover:bg-lime"
+            class="group bg-paper p-4 transition-colors hover:bg-accent"
           >
-            <p class="font-mono text-xs uppercase tracking-[0.15em] text-signal group-hover:text-void">
-              GitHub
+            <p class="font-mono text-xs uppercase tracking-[0.15em] text-accent group-hover:text-void">
+              &gt; GitHub
             </p>
             <p class="mt-1 font-semibold group-hover:text-void">@RomelTibay</p>
           </a>
@@ -72,47 +72,60 @@ const MAILTO = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Hey%20
       </div>
 
       <!-- Right: message form -->
-      <div class="reveal border-2 border-line bg-paper p-6 shadow-hard">
+      <div class="reveal hud-brackets border-2 border-line bg-paper p-6 shadow-hard">
+        <div class="mb-5 flex items-center gap-3 border-b-2 border-line pb-4">
+          <span
+            class="hud-tab hatch border-2 border-accent font-mono text-[0.62rem] font-bold uppercase tracking-[0.2em] text-accent"
+          >
+            <span class="flex items-center gap-1.5">
+              <span class="pulse inline-block h-1.5 w-1.5 rounded-full bg-accent"></span>
+              &gt; Secure Channel // Encrypted
+            </span>
+          </span>
+        </div>
         <form id="contact-form" action={FORMSPREE_ENDPOINT} method="POST" class="flex flex-col gap-4">
           <label class="font-mono text-xs uppercase tracking-wide text-muted">
-            Name
+            &gt; Name
             <input
               type="text"
               name="from_name"
               required
-              class="mt-1.5 w-full border-2 border-line bg-paper px-4 py-2.5 font-sans text-base text-ink outline-none focus:bg-lime/20 focus:ring-0"
+              class="mt-1.5 w-full border-2 border-line bg-void px-4 py-2.5 font-mono text-base text-ink outline-none transition-colors focus:border-accent focus:bg-accent/5 focus:ring-0"
             />
           </label>
           <label class="font-mono text-xs uppercase tracking-wide text-muted">
-            Email
+            &gt; Email
             <input
               type="email"
               name="reply_to"
               required
-              class="mt-1.5 w-full border-2 border-line bg-paper px-4 py-2.5 font-sans text-base text-ink outline-none focus:bg-lime/20 focus:ring-0"
+              class="mt-1.5 w-full border-2 border-line bg-void px-4 py-2.5 font-mono text-base text-ink outline-none transition-colors focus:border-accent focus:bg-accent/5 focus:ring-0"
             />
           </label>
           <label class="font-mono text-xs uppercase tracking-wide text-muted">
-            Message
+            &gt; Message
             <textarea
               name="message"
               rows="5"
               required
-              class="mt-1.5 w-full resize-none border-2 border-line bg-paper px-4 py-2.5 font-sans text-base text-ink outline-none focus:bg-lime/20 focus:ring-0"
+              class="mt-1.5 w-full resize-none border-2 border-line bg-void px-4 py-2.5 font-mono text-base text-ink outline-none transition-colors focus:border-accent focus:bg-accent/5 focus:ring-0"
             ></textarea>
           </label>
           <button
             type="submit"
-            class="mt-1 border-2 border-accent bg-accent px-5 py-3 font-mono text-sm font-bold uppercase tracking-wide text-void shadow-glow transition-all hover:-translate-y-0.5 hover:border-signal hover:bg-signal hover:shadow-glow-signal active:translate-y-0"
+            class="mt-1 inline-flex items-center justify-center gap-2 border-2 border-chalk bg-chalk px-5 py-3 font-mono text-sm font-bold uppercase tracking-wide text-void shadow-glow-white transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-accent hover:shadow-glow active:translate-y-0"
           >
-            Send Message
+            Transmit Message
+            <svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4" aria-hidden="true">
+              <path d="M3 13.5 21 3l-7.5 18-2.4-8.1L3 13.5Z"></path>
+            </svg>
           </button>
         </form>
         <div
           id="form-message"
-          class="mt-4 hidden border-2 border-lime bg-lime px-4 py-3 font-mono text-sm font-bold uppercase text-void"
+          class="mt-4 hidden border-2 border-accent bg-accent px-4 py-3 font-mono text-sm font-bold uppercase text-void"
         >
-          ✅ Thanks — message sent.
+          ✅ Transmission received — message sent.
         </div>
       </div>
     </div>

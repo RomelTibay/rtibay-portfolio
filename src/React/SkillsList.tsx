@@ -51,8 +51,10 @@ const SkillsList = () => {
         return (
           <li key={category}>
             <div
-              className={`border-2 border-line bg-paper transition-all ${
-                open ? "shadow-hard" : "hover:shadow-hard-sm"
+              className={`hud-brackets border-2 bg-paper transition-all ${
+                open
+                  ? "border-accent shadow-hard"
+                  : "border-line hover:border-accent hover:shadow-hard-sm"
               }`}
             >
               <button
@@ -61,7 +63,7 @@ const SkillsList = () => {
                 aria-expanded={open}
                 className="flex w-full items-center gap-4 px-5 py-4 text-left"
               >
-                <span className="font-mono text-sm font-bold text-signal">
+                <span className="font-mono text-sm font-bold text-accent">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="text-accent">{CategoryIcons[category]}</span>
@@ -88,7 +90,7 @@ const SkillsList = () => {
                   <ul className="space-y-2 border-t-2 border-line px-5 py-4 font-mono text-sm text-ink/80">
                     {items.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="text-signal">▸</span>
+                        <span className="text-accent">▸</span>
                         <span>{item}</span>
                       </li>
                     ))}

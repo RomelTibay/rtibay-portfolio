@@ -16,8 +16,8 @@ function makeBars(seed: number, count = 44) {
   const rand = mulberry32(seed);
   return Array.from({ length: count }, () => ({
     h: 18 + Math.round(rand() * 82), // base height %
-    dur: (0.85 + rand() * 0.8).toFixed(2), // s
-    delay: (rand() * 1.1).toFixed(2), // s
+    dur: (1.8 + rand() * 1.2).toFixed(2), // s (slow, deliberate undulation)
+    delay: (rand() * 1.6).toFixed(2), // s
   }));
 }
 
@@ -52,7 +52,7 @@ const waveRows = [
       <span
         class="hud-tab hatch border-2 border-accent font-mono text-[0.7rem] font-bold uppercase tracking-[0.2em] text-accent"
       >
-        <span>Network // Live Data Stream</span>
+        <span data-decode>Network // Live Data Stream</span>
       </span>
       <span class="h-px flex-1 bg-line"></span>
       <span class="hidden font-mono text-[0.65rem] uppercase tracking-wider text-muted sm:inline">
@@ -72,7 +72,8 @@ const waveRows = [
                   {row.dir}
                 </span>
                 <span class="text-muted">
-                  {row.total} · <span class="text-ink">{row.rate}</span>
+                  <span data-count>{row.total}</span> ·
+                  <span class="text-ink" data-count>{row.rate}</span>
                 </span>
               </div>
               <div class="flex h-12 items-center gap-[2px] border-2 border-line bg-void/60 px-2 py-1">

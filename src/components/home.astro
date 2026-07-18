@@ -96,7 +96,7 @@ const readouts = [
       <!-- Right: profile scan + status readouts -->
       <div class="hero-card space-y-5 md:col-span-2">
         <!-- Profile scan panel (the one photo of Romel) -->
-        <figure class="hud-corners group relative border-2 border-ink/30 bg-paper">
+        <figure class="hud-corners group relative border-2 border-ink/30 bg-paper" data-scan>
           <figcaption
             class="hatch flex items-center justify-between border-b-2 border-line px-3 py-2"
           >
@@ -141,7 +141,7 @@ const readouts = [
         </figure>
 
         <!-- Status card -->
-        <div class="hud-corners border-2 border-line bg-paper">
+        <div class="hud-corners border-2 border-line bg-paper" data-scan>
           <div class="hatch flex items-center border-b-2 border-line px-3 py-2">
             <span
               class="hud-tab bg-accent font-mono text-xs font-bold uppercase tracking-wide text-void"
@@ -167,7 +167,7 @@ const readouts = [
             </div>
             <div class="flex justify-between gap-4 px-4 py-3">
               <dt class="text-muted">uptime</dt>
-              <dd class="text-right font-semibold text-accent">99.9%</dd>
+              <dd class="text-right font-semibold text-accent" data-count>99.9%</dd>
             </div>
             <div class="flex justify-between gap-4 px-4 py-3">
               <dt class="text-muted">open to</dt>
@@ -177,7 +177,7 @@ const readouts = [
         </div>
 
         <!-- Fake system-readout strip -->
-        <div class="hud-corners border-2 border-line bg-paper px-4 pb-4 pt-3">
+        <div class="hud-corners border-2 border-line bg-paper px-4 pb-4 pt-3" data-scan>
           <div class="mb-3 flex items-center">
             <span
               class="hud-tab hatch border-2 border-accent font-mono text-[0.6rem] font-bold uppercase tracking-[0.2em] text-accent"
@@ -191,9 +191,9 @@ const readouts = [
                 <div class="flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-wider">
                   <span class="w-8 shrink-0 text-muted">{r.k}</span>
                   <span class="ctos-bar hatch flex-1">
-                    <span class="ctos-bar__fill" style={`width:${r.v}%`} />
+                    <span class="ctos-bar__fill" style={`width:${r.v}%`} data-fill={r.v} />
                   </span>
-                  <span class="w-9 shrink-0 text-right text-accent">{r.v}%</span>
+                  <span class="w-9 shrink-0 text-right text-accent" data-count>{r.v}%</span>
                 </div>
               ))
             }

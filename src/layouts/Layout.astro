@@ -29,6 +29,19 @@ const { title } = Astro.props;
     <!-- Enable progressive-enhancement hooks before paint (no FOUC) -->
     <script is:inline>
       document.documentElement.classList.add("js");
+      // Gate the ctOS boot intro so it covers the page from first paint —
+      // only once per tab and never under reduced motion. Failsafe clears it
+      // even if the main script never runs.
+      try {
+        var seen = sessionStorage.getItem("ctos-boot");
+        var rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!seen && !rm) {
+          document.documentElement.classList.add("booting");
+          setTimeout(function () {
+            document.documentElement.classList.remove("booting");
+          }, 2800);
+        }
+      } catch (e) {}
     </script>
 
     <meta
@@ -69,6 +82,13 @@ const { title } = Astro.props;
     <div id="scroll-progress" aria-hidden="true"></div>
     <div id="cheat-toast" role="status" aria-live="polite">
       <span class="ct-key">◈ ROOT ACCESS</span> ctOS override unlocked
+    </div>
+    <div id="boot" class="boot-overlay" aria-hidden="true">
+      <div class="boot-inner">
+        <p id="boot-line" class="boot-line">ctOS // ESTABLISHING CONNECTION</p>
+        <div class="boot-bar"><span></span></div>
+        <div class="boot-scan"></div>
+      </div>
     </div>
     <slot />
   </body>
@@ -226,7 +246,7 @@ const { title } = Astro.props;
     }
   }
   html.js .glitch {
-    animation: glitch-flicker 5s infinite;
+    animation: glitch-flicker 8s infinite;
   }
   html.js .glitch:hover {
     animation-duration: 1.4s;
@@ -312,7 +332,7 @@ const { title } = Astro.props;
       rgba(41, 229, 229, 0.16),
       transparent
     );
-    animation: scan-move 3.6s linear infinite;
+    animation: scan-move 5s linear infinite;
   }
   @keyframes scan-move {
     0% {
@@ -379,6 +399,7 @@ const { title } = Astro.props;
     height: 100%;
     background: var(--accent);
     box-shadow: 0 0 10px -2px var(--accent);
+    transition: width 1.5s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
   .ctos-bar__fill::after {
     content: "";
@@ -401,7 +422,7 @@ const { title } = Astro.props;
   .radar-sweep {
     transform-box: view-box;
     transform-origin: center;
-    animation: radar-sweep 6s linear infinite;
+    animation: radar-sweep 11s linear infinite;
   }
 
   /* Equalizer bar flux for the network data-stream waveforms */
@@ -426,6 +447,104 @@ const { title } = Astro.props;
     }
     .wave-bar {
       transform: scaleY(0.6);
+    }
+  }
+
+  /* One-shot cyan scan line swept over a panel on reveal (JS-appended child,
+     so it never collides with the ::before/::after corner brackets) */
+  .scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 45%;
+    pointer-events: none;
+    z-index: 4;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(41, 229, 229, 0.18),
+      transparent
+    );
+    animation: panel-scan 1.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  @keyframes panel-scan {
+    0% {
+      transform: translateY(-130%);
+      opacity: 0;
+    }
+    12%,
+    88% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(260%);
+      opacity: 0;
+    }
+  }
+
+  /* ctOS boot intro overlay (shown pre-paint only via html.booting) */
+  .boot-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: var(--void);
+  }
+  html.booting .boot-overlay {
+    display: flex;
+  }
+  .boot-overlay.hide {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .boot-inner {
+    width: min(90vw, 30rem);
+    font-family: "JetBrains Mono Variable", monospace;
+    text-align: center;
+  }
+  .boot-line {
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0 0 12px var(--accent);
+  }
+  .boot-bar {
+    margin-top: 1rem;
+    height: 3px;
+    background: rgba(41, 229, 229, 0.15);
+    overflow: hidden;
+  }
+  .boot-bar > span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    animation: boot-fill 1.4s ease-out forwards;
+  }
+  @keyframes boot-fill {
+    to {
+      width: 100%;
+    }
+  }
+  .boot-scan {
+    margin-top: 0.9rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: boot-scanline 1.3s ease-in-out infinite;
+  }
+  @keyframes boot-scanline {
+    0%,
+    100% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0.85;
     }
   }
 
@@ -524,7 +643,7 @@ const { title } = Astro.props;
   html.js .hero-anim > .neon-title {
     animation:
       rise 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s forwards,
-      glitch-flicker 5s 0.9s infinite;
+      glitch-flicker 8s 0.9s infinite;
   }
   html.js .hero-card {
     opacity: 0;
@@ -569,7 +688,7 @@ const { title } = Astro.props;
     }
   }
   .pulse {
-    animation: pulse-ring 2s ease-out infinite;
+    animation: pulse-ring 2.6s ease-out infinite;
   }
 
   /* Blinking terminal cursor */
@@ -717,6 +836,131 @@ const { title } = Astro.props;
   );
 
   [...staggerContainers, ...singles].forEach((el) => io.observe(el));
+
+  // --- ctOS effects: decrypt text, count-up, bar fill, panel scan ---
+  const GLYPHS = "ABCDEF0123456789!<>-_\\/[]{}=+*#?";
+
+  const finalOf = (el: HTMLElement) => {
+    if (el.dataset.final === undefined) el.dataset.final = el.textContent ?? "";
+    return el.dataset.final;
+  };
+
+  const decode = (el: HTMLElement) => {
+    const text = finalOf(el).trim();
+    if (reduce) {
+      el.textContent = text;
+      return;
+    }
+    const len = text.length;
+    const total = Math.min(1600, Math.max(700, len * 55));
+    const start = performance.now();
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / total);
+      const shown = Math.floor(t * len);
+      let out = "";
+      for (let i = 0; i < len; i++) {
+        const c = text[i];
+        out +=
+          i < shown || c === " "
+            ? c
+            : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+      }
+      el.textContent = out;
+      if (t < 1) requestAnimationFrame(step);
+      else el.textContent = text;
+    };
+    requestAnimationFrame(step);
+  };
+
+  const countUp = (el: HTMLElement) => {
+    const text = finalOf(el);
+    const m = text.match(/^(\D*)([\d.]+)([\s\S]*)$/);
+    if (reduce || !m) {
+      el.textContent = text;
+      return;
+    }
+    const [, prefix, numStr, suffix] = m;
+    const target = parseFloat(numStr);
+    const decimals = numStr.includes(".") ? numStr.split(".")[1].length : 0;
+    const total = 1500;
+    const start = performance.now();
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / total);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
+      if (t < 1) requestAnimationFrame(step);
+      else el.textContent = text;
+    };
+    requestAnimationFrame(step);
+  };
+
+  const fill = (el: HTMLElement) => {
+    const to = (el.dataset.fill || "0") + "%";
+    if (reduce) {
+      el.style.width = to;
+      return;
+    }
+    requestAnimationFrame(() => {
+      el.style.width = to;
+    });
+  };
+
+  const scan = (el: HTMLElement) => {
+    if (reduce) return;
+    const line = document.createElement("div");
+    line.className = "scan-line";
+    line.addEventListener("animationend", () => line.remove(), { once: true });
+    el.appendChild(line);
+  };
+
+  const fx = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const el = entry.target as HTMLElement;
+        if (el.hasAttribute("data-decode")) decode(el);
+        if (el.hasAttribute("data-count")) countUp(el);
+        if (el.hasAttribute("data-fill")) fill(el);
+        if (el.hasAttribute("data-scan")) scan(el);
+        fx.unobserve(el);
+      }
+    },
+    { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
+  );
+  // Zero the ctOS bars up-front (transition off, so no shrink flash) so JS
+  // users see them fill on reveal; no-JS keeps the inline width (stays filled).
+  if (!reduce) {
+    document.querySelectorAll<HTMLElement>("[data-fill]").forEach((el) => {
+      el.style.transition = "none";
+      el.style.width = "0";
+      void el.offsetWidth; // commit the 0 width without animating
+      el.style.transition = "";
+    });
+  }
+  document
+    .querySelectorAll<HTMLElement>(
+      "[data-decode],[data-count],[data-fill],[data-scan]"
+    )
+    .forEach((el) => fx.observe(el));
+
+  // --- ctOS boot intro ---
+  const boot = document.getElementById("boot");
+  if (boot && document.documentElement.classList.contains("booting")) {
+    try {
+      sessionStorage.setItem("ctos-boot", "1");
+    } catch (e) {}
+    const line = document.getElementById("boot-line");
+    if (line) decode(line as HTMLElement);
+    window.setTimeout(() => {
+      boot.classList.add("hide");
+      window.setTimeout(() => {
+        boot.remove();
+        document.documentElement.classList.remove("booting");
+      }, 650);
+    }, 1500);
+  } else if (boot) {
+    boot.remove();
+  }
 
   // --- Dev-console credits (game devs always open the console) ---
   console.log(

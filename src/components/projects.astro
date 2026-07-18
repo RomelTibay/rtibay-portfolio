@@ -39,10 +39,11 @@ const projects: Project[] = [
           class="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-muted"
         >
           <span class="inline-block h-2.5 w-2.5 bg-signal"></span>
-          Selected Work
+          <span data-decode>Selected Work</span>
         </p>
         <h2
           class="font-sans text-4xl font-bold uppercase leading-none tracking-tight text-chalk md:text-6xl"
+          data-decode
         >
           Projects
         </h2>
@@ -55,7 +56,7 @@ const projects: Project[] = [
     <div data-stagger class="grid grid-cols-1 gap-6 md:grid-cols-2">
       {
         projects.map((project, i) => (
-          <article class="reveal hud-brackets group relative flex flex-col overflow-hidden border-2 border-line bg-paper p-6 transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:border-accent hover:shadow-hard">
+          <article class="reveal hud-brackets group relative flex flex-col overflow-hidden border-2 border-line bg-paper p-6 transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:border-accent hover:shadow-hard" data-scan>
             <span class="pointer-events-none absolute -right-2 -top-4 select-none font-mono text-7xl font-bold text-ink/10 md:text-8xl">
               {String(i + 1).padStart(2, "0")}
             </span>

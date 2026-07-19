@@ -14,10 +14,11 @@ const socials = [
   },
 ];
 
-const builtWith = [
-  { desc: "Built with", name: "Astro", icon: "/svg/astro.svg" },
-  { desc: "Styled with", name: "TailwindCSS", icon: "/svg/tailwindcss.svg" },
-  { desc: "Deployed on", name: "Vercel", icon: "/svg/vercel.svg" },
+const credentials = [
+  { name: "CompTIA Tech+", org: "CompTIA", date: "Dec 2025" },
+  { name: "CCNA: Introduction to Networks", org: "Cisco", date: "Sep 2025" },
+  { name: "Google Cloud Innovator", org: "Google Cloud", date: "Mar 2026" },
+  { name: "Python Course", org: "CodeChum", date: "Dec 2022" },
 ];
 ---
 
@@ -52,20 +53,15 @@ const builtWith = [
 
       <div class="reveal md:justify-self-end">
         <p class="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-ink/50">
-          Colophon
+          Certifications
         </p>
         <ul class="space-y-3">
           {
-            builtWith.map((tech) => (
-              <li class="flex items-center gap-3 font-mono text-sm">
-                <span class="text-ink/50">{tech.desc}</span>
-                <img
-                  src={tech.icon}
-                  alt={tech.name}
-                  class="h-5 w-5 object-contain brightness-0 invert"
-                  loading="lazy"
-                />
-                <span class="font-bold">{tech.name}</span>
+            credentials.map((c) => (
+              <li class="flex flex-wrap items-baseline gap-x-3 font-mono text-sm">
+                <span class="font-bold">{c.name}</span>
+                <span class="text-ink/50">{c.org}</span>
+                <span class="text-ink/50">· {c.date}</span>
               </li>
             ))
           }
@@ -78,8 +74,8 @@ const builtWith = [
       class="mt-12 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[0.65rem] uppercase tracking-wider text-muted"
     >
       <span class="text-signal">● live</span>
-      <span>node: rtibay</span>
-      <span>ctOS v1.0</span>
+      <span>node: RomelTibay</span>
+      <span>system v1.0</span>
       <span>uptime 99.9%</span>
       <span>⌂ Laguna, PH</span>
       <span class="text-accent">access: root // ↑↑↓↓←→←→ b a</span>

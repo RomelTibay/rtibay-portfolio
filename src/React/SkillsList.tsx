@@ -20,19 +20,22 @@ const CategoryIcons: Record<string, React.ReactNode> = {
 
 const skills: Record<string, string[]> = {
   "Network Administration": [
+    "Network configuration & administration (CCNA: Introduction to Networks)",
     "Cisco Packet Tracer labs & simulations",
-    "Basic network configuration & administration",
+    "IT infrastructure & hardware fundamentals (CompTIA Tech+)",
     "Linux system administration",
   ],
   "Web Development": [
-    "Full-stack web apps with Node.js & Express",
+    "Full-stack web applications & REST API backends",
     "Frontend with HTML, CSS & JavaScript",
-    "REST APIs & backend services",
+    "Authentication, session management & role-based access control",
+    "Dynamic form management & QR session systems",
   ],
   "Software & Databases": [
-    "Programming in Python, C# & PHP",
-    "Databases with Supabase (PostgreSQL) & SQL",
-    "Cross-platform apps with Flutter",
+    "Programming in Python, JavaScript, C#, PHP & Dart",
+    "Relational databases with SQL, MySQL & Supabase (PostgreSQL)",
+    "Cross-platform application development with Flutter",
+    "Tooling: Git & GitHub, VS Code, Visual Studio, Figma",
   ],
 };
 

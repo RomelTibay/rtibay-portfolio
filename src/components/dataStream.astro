@@ -1,6 +1,4 @@
 ---
-import CtosEmblem from "./ctosEmblem.astro";
-
 // Seeded PRNG so the waveform is stable across builds.
 function mulberry32(seed: number) {
   return function () {
@@ -29,7 +27,6 @@ const stack = [
   "javaScript",
   "HTML5",
   "CSS3",
-  "nodejs",
   "supabase",
   "mysql",
   "git",
@@ -56,13 +53,13 @@ const waveRows = [
       </span>
       <span class="h-px flex-1 bg-line"></span>
       <span class="hidden font-mono text-[0.65rem] uppercase tracking-wider text-muted sm:inline">
-        ◈ ctOS · node rtibay
+        ◈ node RomelTibay
       </span>
     </div>
 
-    <div class="grid items-center gap-8 md:grid-cols-[1fr_auto_1fr]">
+    <div class="grid items-center gap-8 md:grid-cols-2">
       <!-- waveforms -->
-      <div class="order-2 space-y-5 md:order-1">
+      <div class="space-y-5">
         {
           waveRows.map((row) => (
             <div>
@@ -89,16 +86,8 @@ const waveRows = [
         }
       </div>
 
-      <!-- emblem centerpiece (white line-art) -->
-      <div class="order-1 flex flex-col items-center gap-2 md:order-2">
-        <CtosEmblem sweep class="h-40 w-40 text-ink md:h-48 md:w-48" />
-        <span class="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-muted">
-          Signal <span class="text-accent">@ online</span> · 100%
-        </span>
-      </div>
-
       <!-- tech stack as diamonds -->
-      <div class="order-3">
+      <div>
         <p
           class="mb-4 flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted"
         >

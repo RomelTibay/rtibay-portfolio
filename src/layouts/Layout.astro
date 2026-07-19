@@ -18,7 +18,7 @@ const { title } = Astro.props;
     <title>{title} | Network Administrator & Developer</title>
     <meta
       name="description"
-      content="Romel Andres S. Tibay - Aspiring Network Administrator & Software Developer. BSIT senior at Mapúa Malayan Colleges Laguna focused on network administration and web development."
+      content="Romel Andres S. Tibay - Aspiring Network Administrator & Software Developer. BSIT senior in Cyber Security at Mapúa Malayan Colleges Laguna focused on network administration and web development."
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
@@ -69,7 +69,10 @@ const { title } = Astro.props;
         "alternateName": "Romel Tibay",
         "url": "https://rtibay-portfolio.vercel.app",
         "image": "https://rtibay-portfolio.vercel.app/og.image.png",
-        "sameAs": ["https://github.com/RomelTibay"],
+        "sameAs": [
+          "https://github.com/RomelTibay",
+          "https://www.linkedin.com/in/romelandrestibay/"
+        ],
         "jobTitle": "Network Administrator & Software Developer",
         "description": "Aspiring Network Administrator & Software Developer, BSIT senior at Mapúa Malayan Colleges Laguna."
       }
@@ -81,11 +84,11 @@ const { title } = Astro.props;
     <div class="scanlines" aria-hidden="true"></div>
     <div id="scroll-progress" aria-hidden="true"></div>
     <div id="cheat-toast" role="status" aria-live="polite">
-      <span class="ct-key">◈ ROOT ACCESS</span> ctOS override unlocked
+      <span class="ct-key">◈ ROOT ACCESS</span> system override unlocked
     </div>
     <div id="boot" class="boot-overlay" aria-hidden="true">
       <div class="boot-inner">
-        <p id="boot-line" class="boot-line">ctOS // ESTABLISHING CONNECTION</p>
+        <p id="boot-line" class="boot-line">NODE_ROMELTIBAY // ESTABLISHING CONNECTION</p>
         <div class="boot-bar"><span></span></div>
         <div class="boot-scan"></div>
       </div>
@@ -395,6 +398,7 @@ const { title } = Astro.props;
     overflow: visible;
   }
   .ctos-bar__fill {
+    display: block; /* it's a <span>: inline boxes ignore width/height */
     position: relative;
     height: 100%;
     background: var(--accent);
@@ -937,10 +941,25 @@ const { title } = Astro.props;
       el.style.transition = "";
     });
   }
+  // Bars are observed via their track, not the fill span: a zeroed span has no
+  // area, so its intersection ratio stays 0 and a ratio threshold never fires.
+  const fillTracks = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target
+          .querySelectorAll<HTMLElement>("[data-fill]")
+          .forEach((el) => fill(el));
+        fillTracks.unobserve(entry.target);
+      }
+    },
+    { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
+  );
+  document.querySelectorAll<HTMLElement>("[data-fill]").forEach((el) => {
+    fillTracks.observe(el.parentElement ?? el);
+  });
   document
-    .querySelectorAll<HTMLElement>(
-      "[data-decode],[data-count],[data-fill],[data-scan]"
-    )
+    .querySelectorAll<HTMLElement>("[data-decode],[data-count],[data-scan]")
     .forEach((el) => fx.observe(el));
 
   // --- ctOS boot intro ---
@@ -964,7 +983,7 @@ const { title } = Astro.props;
 
   // --- Dev-console credits (game devs always open the console) ---
   console.log(
-    "%cROMEL TIBAY%c // ctOS build v1.0  ◈\n%cconsole access detected. respect. run the konami sequence:  ↑ ↑ ↓ ↓ ← → ← → B A",
+    "%cROMEL TIBAY%c // build v1.0  ◈\n%cconsole access detected. respect. run the konami sequence:  ↑ ↑ ↓ ↓ ← → ← → B A",
     "color:#29e5e5;font-weight:700;font-size:16px;text-shadow:0 0 8px #29e5e5",
     "color:#ff9d2e;font-size:13px",
     "color:#5f8a92;font-size:12px"
@@ -994,7 +1013,7 @@ const { title } = Astro.props;
     const on = document.documentElement.classList.toggle("godmode");
     if (!toast) return;
     toast.innerHTML = on
-      ? '<span class="ct-key">◈ ROOT ACCESS</span> ctOS override unlocked'
+      ? '<span class="ct-key">◈ ROOT ACCESS</span> system override unlocked'
       : '<span class="ct-key">ACCESS REVOKED</span> back to standard render';
     toast.classList.add("show");
     clearTimeout(toastTimer);
